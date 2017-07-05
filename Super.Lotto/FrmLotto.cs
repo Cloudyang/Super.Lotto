@@ -65,48 +65,26 @@ namespace Super.Lotto
 
         private void PickBall()
         {
-            Task.Run(() =>
-            {
-                foreach (var ball in Balls)
-                {
-                    ball.PickBall();
-                }
-            }).ContinueWith(t =>
-            {
-                //if (this.IsStart)
-                //{
-                //    System.Threading.Thread.Sleep(300);
-                //    PickBall();
-                //}
-            });
+            Task.Run(
+                      () =>
+                        {
+                            while (IsStart)
+                            {
+                                Parallel.ForEach(Balls, ball =>
+                                {
+                                    ball.PickBall();
+                                });
+                                Task.Delay(500);
+                            }
+                        });
         }
 
-
-
-        //private async Task PickBall()
-        //{
-        //    await Task.Factory.StartNew(() =>
-        //    {
-        //        Parallel.ForEach(Balls, ball =>
-        //                            {
-        //                                ball.PickBall();
-        //                            });
-        //    }).ContinueWith((t) =>
-        //    {
-        //        if (this.IsStart)
-        //        {
-        //            t.Wait();
-        //            System.Threading.Thread.Sleep(300);
-        //            this.PickBall();
-        //        }
-        //    });            
-        //}
 
         private void Postball_UpdateUI(string controlName, int i)
         {
             base.Invoke(new Action(() =>
             {
-                lock (PostBall._lock)
+                //   lock (PostBall._lock)
                 {
                     this.gboLotto.Controls[controlName].Text = PostBall.Nums[i];
                 }
@@ -117,7 +95,7 @@ namespace Super.Lotto
         {
             base.Invoke(new Action(() =>
             {
-                lock (ProBall._lock)
+                //      lock (ProBall._lock)
                 {
                     this.gboLotto.Controls[controlName].Text = ProBall.Nums[i];
                 }

@@ -37,7 +37,7 @@ namespace Model
         /// <summary>
         /// 刷新前端显示
         /// </summary>
-        protected void OnAction()
+        protected void OnUpdateUI()
         {
             Dict[Lable] = Index;
             UpdateUI?.Invoke(this.Lable, this.Index);

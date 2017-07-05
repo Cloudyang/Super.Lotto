@@ -14,7 +14,7 @@ namespace Common
         /// <param name="min">能出现的最小值</param>
         /// <param name="max">不会出线</param>
         /// <returns></returns>
-        public static int GetRandomNumber(int min = 0, int max = 35)
+        public static int GetRandomNumber(int max, int min = 0)
         {
             Guid guid = Guid.NewGuid();
             string sGuid = guid.ToString();

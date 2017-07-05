@@ -48,15 +48,16 @@ namespace Model
         /// <returns></returns>
         public override void PickBall()
         {
-            lock (_lock)
+            while (true)  //模拟递归没有相同保存，已有相同重新选号
             {
-                while (true)  //模拟递归没有相同保存，已有相同重新选号
+                lock (_lock)
                 {
-                    var index = RandomHelper.GetRandomNumber();
+                    var index = RandomHelper.GetRandomNumber(Nums.Length);
                     if (!Dict.Values.Contains(index))
                     {
                         this.Index = index;
-                        base.OnAction();
+                        Dict[Lable] = index;
+                        base.OnUpdateUI();
                         break;
                     }
                 }
