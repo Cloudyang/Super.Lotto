@@ -22,7 +22,7 @@ namespace Model
         /// <summary>
         /// 锁信息
         /// </summary>
-        public static readonly object _lock = new object();
+        private static readonly object _lock = new object();
 
         /// <summary>
         /// 初始化后区抽奖球号
@@ -59,6 +59,33 @@ namespace Model
                     }
                 }
             }
+            //界面同步显示效果差
+          //  base.OnUpdateUI();
         }
+
+        //第二种 内部异步有很多不可控
+        //public override async void PickBall()
+        //{
+        //    await Task.Run(() =>
+        //    {
+        //        while (true)  //模拟递归没有相同保存，已有相同重新选号
+        //        {
+        //            var index = RandomHelper.GetRandomNumber(Nums.Length);
+        //            if (!Dict.Values.Contains(index))
+        //            {
+        //                lock (_lock)
+        //                {
+        //                    if (!Dict.Values.Contains(index))
+        //                    {
+        //                        this.Index = index;
+        //                        Dict[Lable] = index;
+        //                        base.OnUpdateUI();
+        //                        break;
+        //                    }
+        //                }
+        //            }
+        //        }
+        //    });
+        //}
     }
 }

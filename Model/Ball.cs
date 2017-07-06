@@ -39,7 +39,6 @@ namespace Model
         /// </summary>
         protected void OnUpdateUI()
         {
-            Dict[Lable] = Index;
             UpdateUI?.Invoke(this.Lable, this.Index);
         }
     }

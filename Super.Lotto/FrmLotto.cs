@@ -63,9 +63,10 @@ namespace Super.Lotto
             this.PickBall();
         }
 
-        private void PickBall()
+        private async Task PickBall()
         {
-            Task.Run(
+            //第一种 异步实现方式（外面调用异步，内部同步）
+          await  Task.Run(
                       () =>
                         {
                             while (IsStart)
@@ -77,8 +78,34 @@ namespace Super.Lotto
                                 Task.Delay(500);
                             }
                         });
+            MessageShow();
+            //第二种 异步实现方式 (外面调用同步，内部异步）不明原因发生死锁 这种方式不可控
+            //Task.Run(
+            //          () =>
+            //          {
+            //              while (IsStart)
+            //              {
+            //                  foreach (var ball in Balls)
+            //                  {
+            //                      ball.PickBall();
+            //                  }
+            //                  Task.Delay(1500);
+            //              }
+            //          });
         }
 
+        private void MessageShow()
+        {
+            var sb = new StringBuilder();
+            foreach(Control lbl in this.gboLotto.Controls)
+            {
+                if(lbl is Label)
+                {
+                    sb.Append($"{lbl.Text} ");
+                }
+            }
+            MessageBox.Show($"本期双色球结果是{sb.ToString()}");
+        }
 
         private void Postball_UpdateUI(string controlName, int i)
         {
