@@ -109,12 +109,14 @@ namespace Super.Lotto
             var sb = new StringBuilder();
             foreach (string b in sballs)
             {
-                    sb.Append($"{b} ");
+                sb.Append($"{b} ");
             }
 
-            MessageBox.Show($"本期超级大乐透结果是{sb.ToString()}");
+            var msg = $"本期超级大乐透结果是{sb.ToString()}";
+            Common.SpeechPlay.SpeakContent(msg, 2000);
+            MessageBox.Show(msg);
         }
-
+        
         private void Postball_UpdateUI(string controlName, int i)
         {
             base.Invoke(new Action(() =>
