@@ -1,2 +1,6 @@
 设计思想 基于OOP编程事件驱动实现
-1、先定义彩球Ball类 
+1、先定义彩球Ball基类 用于记录彩球对应号、中奖号、已中奖号池等，定义UpdateUI事件用来处理前端显示交互
+2、前区类ProBall,后区类PostBall分别继承Ball 并实现抽象方法PickBall
+3、多线程采用异步调用Parallel.ForEash方法并发调度
+
+进阶要求后续有时间再慢慢完善。

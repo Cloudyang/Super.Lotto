@@ -13,6 +13,8 @@ namespace Super.Lotto
 {
     public partial class FrmLotto : Form
     {
+        private const string Prozone = "lblProzone";
+        private const string Postzone = "lblPostzone";
         private List<Ball> Balls = new List<Ball>();
 
         private bool IsStart = true;
@@ -32,7 +34,7 @@ namespace Super.Lotto
             #region 前区球初始化
             for (int i = 0; i < 5; i++)
             {
-                string lblProzoneName = $"lblProzone{i}";
+                string lblProzoneName = $"{Prozone}{i}";
                 Label lblProzone = this.gboLotto.Controls[lblProzoneName] as Label;
                 ProBall proball = new ProBall(lblProzoneName, i);
                 proball.UpdateUI += proball_UpdateUI;
@@ -44,7 +46,7 @@ namespace Super.Lotto
             #region 后区球初始化
             for (int i = 0; i < 2; i++)
             {
-                string lblPostzoneName = $"lblPostzone{i}";
+                string lblPostzoneName = $"{Postzone}{i}";
                 Label lblPostzone = this.gboLotto.Controls[lblPostzoneName] as Label;
                 PostBall postball = new PostBall(lblPostzoneName, i);
                 postball.UpdateUI += Postball_UpdateUI; ;
@@ -96,11 +98,11 @@ namespace Super.Lotto
 
         private void MessageShow()
         {
-            var sballs = Balls.Where(b => b.Lable.StartsWith("lblProzone"))
+            var sballs = Balls.Where(b => b.Lable.StartsWith(Prozone))
                 .OrderBy(b => b.Index)
                 .Select(s => ProBall.Nums[s.Index])
                 .Union(
-            Balls.Where(b => b.Lable.StartsWith("lblPostzone"))
+            Balls.Where(b => b.Lable.StartsWith(Postzone))
                 .OrderBy(b => b.Index)
                 .Select(s => PostBall.Nums[s.Index]));
 
@@ -110,14 +112,14 @@ namespace Super.Lotto
                     sb.Append($"{b} ");
             }
 
-            MessageBox.Show($"本期双色球结果是{sb.ToString()}");
+            MessageBox.Show($"本期超级大乐透结果是{sb.ToString()}");
         }
 
         private void Postball_UpdateUI(string controlName, int i)
         {
             base.Invoke(new Action(() =>
             {
-                //   lock (PostBall._lock)
+                //   lock (PostBall._lock) 因为一球一号不存在资源共享问题
                 {
                     this.gboLotto.Controls[controlName].Text = PostBall.Nums[i];
                 }
@@ -128,7 +130,7 @@ namespace Super.Lotto
         {
             base.Invoke(new Action(() =>
             {
-                //      lock (ProBall._lock)
+                //      lock (ProBall._lock) 因为一球一号不存在资源共享问题
                 {
                     this.gboLotto.Controls[controlName].Text = ProBall.Nums[i];
                 }
