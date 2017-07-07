@@ -40,6 +40,7 @@ namespace Model
         protected void OnUpdateUI()
         {
             UpdateUI?.Invoke(this.Lable, this.Index);
+           // Task.Delay(50);
         }
     }
 }

@@ -50,20 +50,23 @@ namespace Model
         {
             while (true)  //模拟递归没有相同保存，已有相同重新选号
             {
-                lock (_lock)
+                var index = RandomHelper.GetRandomNumber(Nums.Length);
+                if (!Dict.Values.Contains(index))
                 {
-                    var index = RandomHelper.GetRandomNumber(Nums.Length);
-                    if (!Dict.Values.Contains(index))
+                    lock (_lock)
                     {
-                        this.Index = index;
-                        Dict[Lable] = index;
-                        base.OnUpdateUI();
-                        break;
+                        if (!Dict.Values.Contains(index))
+                        {
+                            this.Index = index;
+                            Dict[Lable] = index;
+                            base.OnUpdateUI();
+                            break;
+                        }
                     }
                 }
             }
             //界面同步显示效果差
-            //base.OnUpdateUI();
+         //   base.OnUpdateUI();
         }
         //第二种 内部异步有很多不可控
         //public override async void PickBall()

@@ -66,18 +66,18 @@ namespace Super.Lotto
         private async Task PickBall()
         {
             //第一种 异步实现方式（外面调用异步，内部同步）
-          await  Task.Run(
-                      () =>
-                        {
-                            while (IsStart)
-                            {
-                                Parallel.ForEach(Balls, ball =>
-                                {
-                                    ball.PickBall();
-                                });
-                                Task.Delay(500);
-                            }
-                        });
+            await Task.Run(
+                        () =>
+                          {
+                              while (IsStart)
+                              {
+                                  Parallel.ForEach(Balls, ball =>
+                                  {
+                                      ball.PickBall();
+                                  });
+                                  Task.Delay(800);
+                              }
+                          });
             MessageShow();
             //第二种 异步实现方式 (外面调用同步，内部异步）不明原因发生死锁 这种方式不可控
             //Task.Run(
@@ -96,14 +96,20 @@ namespace Super.Lotto
 
         private void MessageShow()
         {
+            var sballs = Balls.Where(b => b.Lable.StartsWith("lblProzone"))
+                .OrderBy(b => b.Index)
+                .Select(s => ProBall.Nums[s.Index])
+                .Union(
+            Balls.Where(b => b.Lable.StartsWith("lblPostzone"))
+                .OrderBy(b => b.Index)
+                .Select(s => PostBall.Nums[s.Index]));
+
             var sb = new StringBuilder();
-            foreach(Control lbl in this.gboLotto.Controls)
+            foreach (string b in sballs)
             {
-                if(lbl is Label)
-                {
-                    sb.Append($"{lbl.Text} ");
-                }
+                    sb.Append($"{b} ");
             }
+
             MessageBox.Show($"本期双色球结果是{sb.ToString()}");
         }
 
