@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Model;
+using System.Media;
 
 namespace Super.Lotto
 {
@@ -56,13 +57,19 @@ namespace Super.Lotto
             #endregion
         }
 
+        private SoundPlayer player = new SoundPlayer(@"C:\Windows\Media\Alarm04.wav");
         private void btnStart_Click(object sender, EventArgs e)
         {
+            if (!player.IsLoadCompleted)
+            {
+                player.Load();
+            }
             this.btnStart.Text = "开始ing";
             this.btnStart.Enabled = false;
             this.btnStop.Enabled = true;
             this.IsStart = true;
             this.PickBall();
+            player.PlayLooping();
         }
 
         private async Task PickBall()
@@ -145,6 +152,7 @@ namespace Super.Lotto
             this.btnStart.Enabled = true;
             btnStart.Text = "开始";
             this.IsStart = false;
+            player.Stop();
         }
     }
 }
